@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { HighscoreRepository } from './repository/highscore.repository';
 import { RequestRspDto } from './dto/request_rsp-dto';
 import { UserRepository } from 'src/users/repository/users.repository';
+import { GetScoreDto } from './dto/get_score-dto';
 
 @Injectable()
 export class RspService {
@@ -59,5 +60,29 @@ export class RspService {
       data: { yourscore: user.score, highscore: resp_highscore },
       message: 'success',
     };
+  }
+
+  async getScores(reqRspDto: GetScoreDto) {
+    //get userscore
+    const user = await this.userRepository.getUser(reqRspDto.email);
+    const highscore = await this.highscoreRepository.getHighscore();
+    //get highscore
+    if (highscore) {
+      console.log('have highscore');
+
+      return {
+        success: true,
+        data: { yourscore: user.score, highscore: highscore.highscore },
+        message: 'success',
+      };
+    } else {
+      console.log('no highscore');
+      await this.highscoreRepository.createHighscore();
+      return {
+        success: true,
+        data: { yourscore: user.score, highscore: 0 },
+        message: 'success',
+      };
+    }
   }
 }

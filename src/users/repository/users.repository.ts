@@ -22,7 +22,7 @@ export class UserRepository extends Repository<User> {
     let temp_score = user.score;
     temp_score++;
     user.score = temp_score;
-    user.save();
+    await user.save();
     return user;
   }
 
@@ -42,5 +42,10 @@ export class UserRepository extends Repository<User> {
     } else {
       return null;
     }
+  }
+
+  async getUser(email: string) {
+    const user = await this.findOne({ email: email });
+    return user;
   }
 }

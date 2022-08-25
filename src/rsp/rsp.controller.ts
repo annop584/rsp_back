@@ -20,6 +20,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
+import { GetScoreDto } from './dto/get_score-dto';
 import { RequestRspDto } from './dto/request_rsp-dto';
 import { RspService } from './rsp.service';
 
@@ -49,5 +50,12 @@ export class RspController {
   @UsePipes(ValidationPipe)
   async getHighscore() {
     return this.rspService.gethighscore();
+  }
+
+  @Post('getscores')
+  @UseGuards(AuthGuard())
+  @UsePipes(ValidationPipe)
+  async getScores(@Body() getScoreDto: GetScoreDto) {
+    return this.rspService.getScores(getScoreDto);
   }
 }
