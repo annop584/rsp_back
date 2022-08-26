@@ -8,6 +8,7 @@ import {
   Header,
   Injectable,
   Param,
+  Patch,
   PipeTransform,
   Post,
   Put,
@@ -18,10 +19,9 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { GetScoreDto } from './dto/get_score-dto';
-import { RequestRspDto } from './dto/request_rsp-dto';
 import { RspService } from './rsp.service';
 
 @Controller('rsp')
@@ -31,31 +31,36 @@ export class RspController {
     private readonly jwtService: JwtService,
   ) {}
 
-  @Post('botrandomrsp')
+  @Get('botrandomrsp')
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
-  async createRestaurant() {
+  async createRestaurant(@Req() req: Request) {
     return this.rspService.getRandom_rsp();
   }
 
-  @Post('sendrsp')
+  @Patch('updatescore')
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
-  async sendrsp(@Body() reqRspDto: RequestRspDto) {
-    return this.rspService.save_rsp_stat(reqRspDto);
+  async sendrsp(@Req() req: Request) {
+    const jwt = req.headers.authorization.replace('Bearer ', '');
+    const jwtdecode = this.jwtService.decode(jwt, { json: true });
+    return this.rspService.save_rsp_stat(jwtdecode['email']);
+    // return jwtdecode['email'];
   }
 
-  @Post('gethighscore')
+  @Get('gethighscore')
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
   async getHighscore() {
     return this.rspService.gethighscore();
   }
 
-  @Post('getscores')
+  @Get('getscores')
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
-  async getScores(@Body() getScoreDto: GetScoreDto) {
-    return this.rspService.getScores(getScoreDto);
+  async getScores(@Req() req: Request) {
+    const jwt = req.headers.authorization.replace('Bearer ', '');
+    const jwtdecode = this.jwtService.decode(jwt, { json: true });
+    return this.rspService.getScores(jwtdecode);
   }
 }

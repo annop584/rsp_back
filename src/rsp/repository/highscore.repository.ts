@@ -1,6 +1,5 @@
 import { Highscore } from '../entities/highscore.entity';
 import { Repository, EntityRepository, createQueryBuilder } from 'typeorm';
-import { RequestRspDto } from '../dto/request_rsp-dto';
 
 @EntityRepository(Highscore)
 export class HighscoreRepository extends Repository<Highscore> {

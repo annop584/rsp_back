@@ -5,9 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HighscoreRepository } from './repository/highscore.repository';
-import { RequestRspDto } from './dto/request_rsp-dto';
 import { UserRepository } from 'src/users/repository/users.repository';
-import { GetScoreDto } from './dto/get_score-dto';
 
 @Injectable()
 export class RspService {
@@ -44,8 +42,8 @@ export class RspService {
     }
   }
 
-  async save_rsp_stat(reqRspDto: RequestRspDto) {
-    const user = await this.userRepository.updateUser(reqRspDto.email);
+  async save_rsp_stat(email) {
+    const user = await this.userRepository.updateUser(email);
     const highscore = await this.highscoreRepository.getHighscore();
     let resp_highscore = highscore.highscore;
     if (user.score > highscore.highscore) {
@@ -62,9 +60,9 @@ export class RspService {
     };
   }
 
-  async getScores(reqRspDto: GetScoreDto) {
+  async getScores(email) {
     //get userscore
-    const user = await this.userRepository.getUser(reqRspDto.email);
+    const user = await this.userRepository.getUser(email);
     const highscore = await this.highscoreRepository.getHighscore();
     //get highscore
     if (highscore) {
