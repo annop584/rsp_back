@@ -46,6 +46,7 @@ export class UserRepository extends Repository<User> {
 
   async getUser(email: string) {
     const user = await this.findOne({ email: email });
+
     return user;
   }
 }

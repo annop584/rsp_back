@@ -18,21 +18,22 @@ export class RspService {
 
   //random rsp
   getRandom_rsp() {
-    return Math.floor(Math.random() * 3);
+    return {
+      success: true,
+      data: { botrsp: Math.floor(Math.random() * 3) },
+      message: 'success',
+    };
   }
 
   async gethighscore() {
     const highscore = await this.highscoreRepository.getHighscore();
     if (highscore) {
-      console.log('have highscore');
-
       return {
         success: true,
         data: { highscore: highscore.highscore },
         message: 'success',
       };
     } else {
-      console.log('no highscore');
       await this.highscoreRepository.createHighscore();
       return {
         success: true,
@@ -66,15 +67,12 @@ export class RspService {
     const highscore = await this.highscoreRepository.getHighscore();
     //get highscore
     if (highscore) {
-      console.log('have highscore');
-
       return {
         success: true,
         data: { yourscore: user.score, highscore: highscore.highscore },
         message: 'success',
       };
     } else {
-      console.log('no highscore');
       await this.highscoreRepository.createHighscore();
       return {
         success: true,

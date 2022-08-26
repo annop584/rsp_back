@@ -38,12 +38,13 @@ export class RspController {
     return this.rspService.getRandom_rsp();
   }
 
-  @Patch('updatescore')
+  @Get('updatescore')
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
   async sendrsp(@Req() req: Request) {
     const jwt = req.headers.authorization.replace('Bearer ', '');
     const jwtdecode = this.jwtService.decode(jwt, { json: true });
+
     return this.rspService.save_rsp_stat(jwtdecode['email']);
     // return jwtdecode['email'];
   }
@@ -61,6 +62,6 @@ export class RspController {
   async getScores(@Req() req: Request) {
     const jwt = req.headers.authorization.replace('Bearer ', '');
     const jwtdecode = this.jwtService.decode(jwt, { json: true });
-    return this.rspService.getScores(jwtdecode);
+    return this.rspService.getScores(jwtdecode['email']);
   }
 }

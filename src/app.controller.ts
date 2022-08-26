@@ -16,8 +16,6 @@ export class AppController {
 
   @Get('/test')
   testEnv(): string {
-    console.log('test');
-
     return this.configService.get<string>('JWT_SECRET');
   }
 }

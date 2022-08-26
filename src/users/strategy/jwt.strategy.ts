@@ -19,12 +19,7 @@ export class AuthJwtStategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload) {
-    console.log('verify payload');
-    console.log(payload);
-
     const { email } = payload;
-    console.log('uuid');
-    console.log(email);
 
     const user = await this.userRepository.findOne({ email: email });
 
