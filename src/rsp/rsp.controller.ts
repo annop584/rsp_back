@@ -32,14 +32,14 @@ export class RspController {
   ) {}
 
   @Get('botrandomrsp')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   async createRestaurant(@Req() req: Request) {
     return this.rspService.getRandom_rsp();
   }
 
   @Get('updatescore')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   async sendrsp(@Req() req: Request) {
     const jwt = req.headers.authorization.replace('Bearer ', '');
@@ -50,14 +50,14 @@ export class RspController {
   }
 
   @Get('gethighscore')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   async getHighscore() {
     return this.rspService.gethighscore();
   }
 
   @Get('getscores')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   async getScores(@Req() req: Request) {
     const jwt = req.headers.authorization.replace('Bearer ', '');

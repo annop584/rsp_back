@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HighscoreRepository } from './repository/highscore.repository';
-import { UserRepository } from 'src/users/repository/users.repository';
+import { UserRepository } from '../users/repository/users.repository';
 
 @Injectable()
 export class RspService {
