@@ -13,6 +13,7 @@ async function bootstrap() {
     origin: '*',
   });
   await app.init();
-  http.createServer(server).listen(4000);
+  // http.createServer(server).listen(4000);
+  await app.listen(4000);
 }
 bootstrap();

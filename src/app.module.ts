@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { RspModule } from './rsp/rsp.module';
+import { RspGateway } from './rsp.gateway';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import { RspModule } from './rsp/rsp.module';
     RspModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, RspGateway],
 })
 export class AppModule {}
